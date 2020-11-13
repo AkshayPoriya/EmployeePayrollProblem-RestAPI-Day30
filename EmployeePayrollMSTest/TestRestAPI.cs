@@ -21,30 +21,31 @@ namespace EmployeePayrollMSTest
         }
 
         /// <summary>
-        /// UC3
-        /// Tests the add multiple entries using post operation.
+        /// UC4
+        /// Tests the update data using put operation.
         /// </summary>
         [TestMethod]
-        public void TestAddMultipleEntriesUsingPostOperation()
+        public void TestUpdateDataUsingPutOperation()
         {
-            //adding multiple employees to table
-            List<Employee> employeeList = new List<Employee>();
-            employeeList.Add(new Employee { name = "Virat Kohli", salary = "400000" });
-            employeeList.Add(new Employee { name = "MSD", salary = "500000" });
-            foreach(Employee employee in employeeList)
-            {
-                RestRequest request = new RestRequest("/employees", Method.POST);
-                JObject jObject = new JObject();
-                jObject.Add("name", employee.name);
-                jObject.Add("salary", employee.salary);
-                request.AddParameter("application/json", jObject, ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-                //Assert
-                Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
-                //derserializing object for assert and checking test case
-                Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
-                Assert.AreEqual(employee.name, dataResponse.name);
-            }
+            //making a request for a particular employee to be updated
+            RestRequest request = new RestRequest("employees/8", Method.PUT);
+            //creating a jobject for new data to be added in place of old
+            //json represents a new json object
+            JObject jobject = new JObject();
+            jobject.Add("name", "Tom Cruise");
+            jobject.Add("salary", 5550000);
+            //adding parameters in request
+            //request body parameter type signifies values added using add.
+            request.AddParameter("application/json", jobject, ParameterType.RequestBody);
+            //executing request using client
+            //IRest response act as a container for the data sent back from api.
+            IRestResponse response = client.Execute(request);
+            //checking status code of response
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            //deserializing content added in json file
+            Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
+            //asserting for salary
+            Assert.AreEqual(dataResponse.salary, "5550000");
         }
     }
 }
