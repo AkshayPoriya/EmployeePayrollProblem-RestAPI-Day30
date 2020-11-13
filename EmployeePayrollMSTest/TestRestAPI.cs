@@ -21,33 +21,30 @@ namespace EmployeePayrollMSTest
         }
 
         /// <summary>
-        /// UC2
-        /// Tests the add data by post operation.
+        /// UC3
+        /// Tests the add multiple entries using post operation.
         /// </summary>
         [TestMethod]
-        public void TestAddDataByPostOperation()
+        public void TestAddMultipleEntriesUsingPostOperation()
         {
-            //Arrange
-            //adding request to post(add) data
-            RestRequest request = new RestRequest("/employees", Method.POST);
-            //instatiating jObject for adding data for name and salary, id auto increments
-            JObject jObject = new JObject();
-            jObject.Add("name", "Rohit Sharma");
-            jObject.Add("salary", "150000");
-            //as parameters are passed as body hence "request body" call is made, in parameter type
-            request.AddParameter("application/json", jObject, ParameterType.RequestBody);
-            //Act
-            //request contains method of post and along with added parameter which contains data to be added
-            //hence response will contain the data which is added and not all the data from jsonserver.
-            //data is added to json server json file in this step.
-            IRestResponse response = client.Execute(request);
-            //Assert
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
-            //derserializing object for assert and checking test case
-            Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
-            Assert.AreEqual("Rohit Sharma", dataResponse.name);
-            Assert.AreEqual("150000", dataResponse.salary);
-            Console.WriteLine(response.Content);
+            //adding multiple employees to table
+            List<Employee> employeeList = new List<Employee>();
+            employeeList.Add(new Employee { name = "Virat Kohli", salary = "400000" });
+            employeeList.Add(new Employee { name = "MSD", salary = "500000" });
+            foreach(Employee employee in employeeList)
+            {
+                RestRequest request = new RestRequest("/employees", Method.POST);
+                JObject jObject = new JObject();
+                jObject.Add("name", employee.name);
+                jObject.Add("salary", employee.salary);
+                request.AddParameter("application/json", jObject, ParameterType.RequestBody);
+                IRestResponse response = client.Execute(request);
+                //Assert
+                Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
+                //derserializing object for assert and checking test case
+                Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
+                Assert.AreEqual(employee.name, dataResponse.name);
+            }
         }
     }
 }
