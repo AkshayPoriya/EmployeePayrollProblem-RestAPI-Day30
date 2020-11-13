@@ -24,6 +24,16 @@
       "name": "Brush Wayne",
       "Salary": "80000",
       "id": 6
+    },
+    {
+      "name": "Rohit Sharma",
+      "salary": "150000",
+      "id": 7
+    },
+    {
+      "name": "Rohit Sharma",
+      "salary": "150000",
+      "id": 8
     }
   ]
 }
