@@ -34,6 +34,26 @@
       "name": "Rohit Sharma",
       "salary": "150000",
       "id": 8
+    },
+    {
+      "name": "Virat Kohli",
+      "salary": "400000",
+      "id": 9
+    },
+    {
+      "name": "MSD",
+      "salary": "500000",
+      "id": 10
+    },
+    {
+      "name": "Virat Kohli",
+      "salary": "400000",
+      "id": 11
+    },
+    {
+      "name": "MSD",
+      "salary": "500000",
+      "id": 12
     }
   ]
 }
